@@ -1,3 +1,4 @@
+# curl -fsSL https://github.com/logston/py-for-or/edit/master/vm/configure.sh
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y \
