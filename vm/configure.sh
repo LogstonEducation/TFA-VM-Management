@@ -27,4 +27,5 @@ cd Python-3.6.3
 make -j 4
 sudo make install
 echo "alias python=/usr/local/bin/python3" > ~/.bash_aliases
+echo "alias pip=/usr/local/bin/pip3" > ~/.bash_aliases
 source ~/.bashrc
