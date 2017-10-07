@@ -1,3 +1,5 @@
+# To configure your VM with python3.6, run the following line of code at 
+# the command line (don't copy the "#"):
 # curl -fsSL https://raw.githubusercontent.com/logston/py-for-or/master/vm/configure.sh | bash
 sudo apt-get update
 sudo apt-get -y upgrade
