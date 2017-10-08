@@ -74,3 +74,5 @@ EOF
 
 sudo systemctl enable jupyter.service
 sudo systemctl start jupyter.service
+
+echo "Configuration Complete"
