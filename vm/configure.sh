@@ -18,7 +18,8 @@ sudo apt-get install -y \
         libncurses5-dev \
         libgdbm-dev \
         tcl8.6-dev \
-        tk8.6-dev
+        tk8.6-dev \
+        git
 cd /tmp
 wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz -O python.tgz
 tar -xvzf python.tgz
@@ -26,6 +27,23 @@ cd Python-3.6.3
 ./configure --prefix=/usr/local
 make -j 4
 sudo make install
-echo "alias python=/usr/local/bin/python3" > ~/.bash_aliases
-echo "alias pip=/usr/local/bin/pip3" > ~/.bash_aliases
-source ~/.bashrc
+sudo ln -s /usr/local/bin/python3.6 /usr/local/bin/python
+sudo ln -s /usr/local/bin/pip3 /usr/local/bin/pip
+sudo chown -R $(whoami):$(whoami) /usr/local/
+
+pip install jupyter
+
+jupyter notebook --generate-config
+
+sudo cat << 'EOF' > /etc/systemd/system/jupyter.service
+[Unit]
+Description=JupyterNotebook
+[Service]
+WorkingDirectory=${HOME}
+ExecStart=/usr/local/bin/jupyter notebook --config=${HOME}/.jupyter/jupyter_notebook_config.py
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable jupyter.service
+sudo systemctl start jupyter.service
