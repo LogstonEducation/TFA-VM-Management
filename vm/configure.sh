@@ -35,6 +35,32 @@ pip install jupyter
 
 jupyter notebook --generate-config
 
+cat << 'EOF' > .jupyter/jupyter_notebook_config.py
+## Whether to allow the user to run the notebook as root.
+c.NotebookApp.allow_root = True
+## The IP address the notebook server will listen on.
+c.NotebookApp.ip = '0.0.0.0'
+## The port the notebook server will listen on.
+c.NotebookApp.port = 80
+## Dict of Python modules to load as notebook server extensions.Entry values can
+#  be used to enable and disable the loading ofthe extensions. The extensions
+#  will be loaded in alphabetical order.
+#c.NotebookApp.nbserver_extensions = {}
+## Whether to open in a browser after starting. The specific browser used is
+#  platform dependent and determined by the python standard library `webbrowser`
+#  module, unless it is overridden using the --browser (NotebookApp.browser)
+#  configuration option.
+c.NotebookApp.open_browser = False
+## Hashed password to use for web authentication.
+#  
+#  To generate, type in a python/IPython shell:
+#  
+#    from notebook.auth import passwd; passwd()
+#  
+#  The string should be of the form type:salt:hashed-password.
+#c.NotebookApp.password = ''
+EOF
+
 sudo cat << 'EOF' > /etc/systemd/system/jupyter.service
 [Unit]
 Description=JupyterNotebook
