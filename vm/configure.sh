@@ -20,6 +20,10 @@ sudo apt-get install -y \
         tcl8.6-dev \
         tk8.6-dev \
         git
+
+PY_VERSION=$(python -V)
+if [ "$PY_VERSION" != "Python 3.6.3" ]; then
+echo "Installing Python 3.6.3"
 cd /tmp
 wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz -O python.tgz
 tar -xvzf python.tgz
@@ -30,6 +34,8 @@ sudo make install
 sudo ln -s /usr/local/bin/python3.6 /usr/local/bin/python
 sudo ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 sudo chown -R $(whoami):$(whoami) /usr/local/
+cd ~
+fi
 
 pip install jupyter
 
