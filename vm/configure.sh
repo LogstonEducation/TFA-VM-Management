@@ -33,7 +33,7 @@ sudo chown -R $(whoami):$(whoami) /usr/local/
 
 pip install jupyter
 
-jupyter notebook --generate-config
+jupyter notebook --generate-config -y
 
 cat << 'EOF' > .jupyter/jupyter_notebook_config.py
 ## Whether to allow the user to run the notebook as root.
