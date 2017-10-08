@@ -59,7 +59,7 @@ c.NotebookApp.open_browser = False
 EOF
 
 pip install jupyter_contrib_nbextensions
-pip install auotpep8
+pip install autopep8
 jupyter contrib nbextension install --sys-prefix
 
 cat <<-EOF | sudo tee /etc/systemd/system/jupyter.service 
