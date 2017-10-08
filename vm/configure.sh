@@ -70,6 +70,9 @@ c.NotebookApp.open_browser = False
 #c.NotebookApp.password = ''
 EOF
 
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+
 cat <<-EOF | sudo tee /etc/systemd/system/jupyter.service 
 [Unit]
 Description=JupyterNotebook
