@@ -39,7 +39,7 @@ fi
 
 pip install jupyter
 
-mkdir .jupyter/
+mkdir -p .jupyter/
 
 cat << 'EOF' > .jupyter/jupyter_notebook_config.py
 ## Whether to allow the user to run the notebook as root.
@@ -67,12 +67,12 @@ c.NotebookApp.open_browser = False
 #c.NotebookApp.password = ''
 EOF
 
-sudo cat << 'EOF' > /etc/systemd/system/jupyter.service
+cat <<-EOF | sudo tee /etc/systemd/system/jupyter.service 
 [Unit]
 Description=JupyterNotebook
 [Service]
-WorkingDirectory=${HOME}
-ExecStart=/usr/local/bin/jupyter notebook --config=${HOME}/.jupyter/jupyter_notebook_config.py
+WorkingDirectory=/home/$USER
+ExecStart=/usr/local/bin/jupyter notebook --config=/home/$USER/.jupyter/jupyter_notebook_config.py
 [Install]
 WantedBy=multi-user.target
 EOF
