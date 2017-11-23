@@ -42,7 +42,7 @@ sudo chown -R $(whoami):$(whoami) /usr/local/
 cd ~
 fi
 
-pip install jupyter
+pip install -r https://raw.githubusercontent.com/logston/py-for-or/master/vm/requirements.txt
 
 mkdir -p .jupyter/
 
@@ -60,8 +60,6 @@ c.NotebookApp.port = 80
 c.NotebookApp.open_browser = False
 EOF
 
-pip install jupyter_contrib_nbextensions
-pip install autopep8
 jupyter contrib nbextension install --sys-prefix
 
 cat <<-EOF | sudo tee /etc/systemd/system/jupyter.service 
