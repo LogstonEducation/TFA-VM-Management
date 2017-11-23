@@ -22,7 +22,9 @@ sudo apt-get install -y \
         libgdbm-dev \
         tcl8.6-dev \
         tk8.6-dev \
-        git
+        git \
+        postgresql-9.6 \
+        postgresql-client-9.6
 
 PY_VERSION=$(python -V)
 if [ "$PY_VERSION" != "Python 3.6.3" ]; then
@@ -74,5 +76,8 @@ EOF
 
 sudo systemctl enable jupyter.service
 sudo systemctl start jupyter.service
+
+sudo -H -u postgres bash -c "psql -c \"CREATE ROLE $USER CREATEDB LOGIN ENCRYPTED PASSWORD 'supersecret';\""
+psql -d postgres -c "CREATE DATABASE mydb;"
 
 echo "Configuration Complete"
