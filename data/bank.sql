@@ -55,7 +55,8 @@ ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 COPY accounts (id, user_id, balance) FROM stdin;
-3	5	50
+2	5	50
+3	6	50
 4	6	70
 6	8	90
 7	9	100
