@@ -7,8 +7,8 @@ username/password combination for an email to send the codes from.
 The CSV file should be of the form:
 
 ```
-email,code
-<email>,ABCD-1234-ABCD-1234
+name,uid,code
+Paul,pl2648,ABCD-1234-ABCD-1234
 ```
 """
 
@@ -21,21 +21,38 @@ from time import sleep
 HOST = 'smtp.gmail.com'
 PORT = 465
 
+MSG = """
+Hi {name}! Looks like you've been given some Google Cloud credit.
+Please review the following guides and setup a VM with your given code.
 
-def get_message(from_, email, credit_code):
-    text = f'Your code is: {credit_code}'
+VM Creation Guide: https://goo.gl/DfMx3w
+VM Configuration Guide: https://goo.gl/nAc5Sm
+
+Your code is: {credit_code}
+"""
+
+
+def get_message(from_, data):
+    text = MSG.format(name=data['name'], credit_code=data['code'])
     msg = MIMEText(text)
     msg['Subject'] = 'Your Google Cloud Credit Code'
     msg['From'] = from_
-    msg['To'] = email
+    msg['To'] = data['email']
     return msg
 
 
 def get_student_data(file_name):
     with open(file_name) as fp:
         reader = csv.DictReader(fp)
-        data = [(d['email'].strip(), d['code'].strip()) for d in reader]
-        return filter(lambda tup: all(tup), data)
+        data = [
+            {
+                'name': d['name'].strip(),
+                'email': d['uid'].strip() + '@columbia.edu',
+                'code': d['code'].strip()
+            }
+            for d in reader
+        ]
+        return filter(lambda d: all(d.values()), data)
 
 
 def send_emails(file_name, username, password):
@@ -49,9 +66,9 @@ def send_emails(file_name, username, password):
     print('Sending emails to ...')
 
     for i, data in enumerate(student_data, start=1):
-        print(f'{i}. ', data[0])
-        msg = get_message(username, *data)
-        s.send_message(msg, from_addr=FROM)
+        print(f'{i}. ', data['email'])
+        msg = get_message(username, data)
+        s.send_message(msg, from_addr=username)
         sleep(2)  # Avoid Google from shutting us down
 
     s.quit()
