@@ -23,9 +23,12 @@ sudo apt-get install -y \
         tcl8.6-dev \
         tk8.6-dev \
         git \
+        vim \
+        less \
         postgresql-9.6 \
         postgresql-client-9.6
 
+# Install Python
 PY_VERSION=$(python -V)
 if [ "$PY_VERSION" != "Python 3.6.3" ]; then
 echo "Installing Python 3.6.3"
@@ -41,6 +44,8 @@ sudo ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 sudo chown -R $(whoami):$(whoami) /usr/local/
 cd ~
 fi
+
+echo "Configuring Jupyter"
 
 pip install -r https://raw.githubusercontent.com/logston/py-for-or/master/vm/requirements.txt
 
@@ -75,7 +80,12 @@ EOF
 sudo systemctl enable jupyter.service
 sudo systemctl start jupyter.service
 
+echo "Configuring Postgres"
+
 sudo -H -u postgres bash -c "psql -c \"CREATE ROLE $USER CREATEDB LOGIN ENCRYPTED PASSWORD 'supersecret';\""
-psql -d postgres -c "CREATE DATABASE mydb;"
+psql -d postgres -c "CREATE DATABASE $USER;"
+
+curl https://raw.githubusercontent.com/logston/py-for-or/master/data/imdb.sh | bash
+curl https://raw.githubusercontent.com/logston/py-for-or/master/data/bank.sh | bash
 
 echo "Configuration Complete"
