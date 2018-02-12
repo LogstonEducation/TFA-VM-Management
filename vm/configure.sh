@@ -25,8 +25,16 @@ sudo apt-get install -y \
         git \
         vim \
         less \
+
+if [ $(cat /etc/*-release | grep DISTRIB_ID=Ubuntu | wc -l) = 1 ]; then
+sudo apt-get install -y \
+        postgresql \
+        postgresql-contrib
+else
+sudo apt-get install -y \
         postgresql-9.6 \
         postgresql-client-9.6
+fi
 
 # Install Python
 PY_VERSION=$(python -V)
