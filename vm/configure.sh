@@ -25,6 +25,8 @@ sudo apt-get install -y \
         git \
         vim \
         less \
+        
+git config --global core.editor "vim"
 
 if [ $(cat /etc/*-release | grep DISTRIB_ID=Ubuntu | wc -l) = 1 ]; then
 sudo apt-get install -y \
