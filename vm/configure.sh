@@ -4,6 +4,7 @@
 # Then run these commands to set a password:
 # jupyter notebook password
 # sudo systemctl restart jupyter
+export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y \
