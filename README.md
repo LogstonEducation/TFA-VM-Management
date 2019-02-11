@@ -1,5 +1,4 @@
-# py-for-or
-
+# columbia-vm-management
 
 VM Creation Instructions: https://goo.gl/DfMx3w
 
