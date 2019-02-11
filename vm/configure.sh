@@ -1,6 +1,6 @@
 # To configure your VM with python3.6, run the following single line of code 
 # at the command line (don't copy the "#"):
-# curl -fsSL https://raw.githubusercontent.com/logston/py-for-or/master/vm/configure.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/logston/columbia-vm-management/master/vm/configure.sh | bash
 # Then run these commands to set a password:
 # jupyter notebook password
 # sudo systemctl restart jupyter
@@ -58,7 +58,7 @@ fi
 
 echo "Configuring Jupyter"
 
-pip install -r https://raw.githubusercontent.com/logston/py-for-or/master/vm/requirements.txt
+pip install -r https://raw.githubusercontent.com/logston/columbia-vm-management/master/vm/requirements.txt
 
 mkdir -p .jupyter/
 
@@ -96,7 +96,7 @@ echo "Configuring Postgres"
 sudo -H -u postgres bash -c "psql -c \"CREATE ROLE $USER CREATEDB LOGIN ENCRYPTED PASSWORD 'supersecret';\""
 psql -d postgres -c "CREATE DATABASE $USER;"
 
-curl https://raw.githubusercontent.com/logston/py-for-or/master/data/imdb.sh | bash
-curl https://raw.githubusercontent.com/logston/py-for-or/master/data/bank.sh | bash
+curl https://raw.githubusercontent.com/logston/columbia-vm-management/master/data/imdb.sh | bash
+curl https://raw.githubusercontent.com/logston/columbia-vm-management/master/data/bank.sh | bash
 
 echo "Configuration Complete"
