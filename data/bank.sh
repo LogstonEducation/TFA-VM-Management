@@ -1,3 +1,3 @@
-wget https://github.com/logston/columbia-vm-management/raw/master/data/bank.sql
+wget https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/bank.sql
 psql -c "create database bank"
 psql -f bank.sql bank
