@@ -1,10 +1,6 @@
-# To configure your VM with python3.6, run the following single line of code 
-# at the command line (don't copy the "#"):
-# curl -fsSL https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/vm/configure.sh | bash
-# Then run these commands to set a password:
-# jupyter notebook password
-# sudo systemctl restart jupyter
-export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+# To configure your VM with python3, run the following single line of code 
+# at the command line from the VM (don't copy the "#" or the "$"):
+#     $ curl -fsSL https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/vm/configure.sh | bash
 sudo apt-get update
 sudo apt-get install -y \
         build-essential \
@@ -29,13 +25,6 @@ sudo apt-get install -y \
         
 git config --global core.editor "vim"
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
-sudo apt-get update
-sudo apt-get install -y \
-        postgresql-12 \
-        postgresql-client-12
-
 # Install Python
 PY_VERSION=$(python3 -V)
 if [ "$PY_VERSION" != "Python 3.8.1" ]; then
@@ -52,6 +41,15 @@ sudo ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 sudo chown -R $(whoami):$(whoami) /usr/local/
 cd ~
 fi
+
+echo "Installing Postgres"
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+sudo apt-get update
+sudo apt-get install -y \
+        postgresql-12 \
+        postgresql-client-12
 
 echo "Configuring Postgres"
 
