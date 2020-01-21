@@ -1,14 +1,14 @@
 # To configure your VM with python3.6, run the following single line of code 
 # at the command line (don't copy the "#"):
-# curl -fsSL https://raw.githubusercontent.com/logston/columbia-vm-management/master/vm/configure.sh | bash
+# curl -fsSL https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/vm/configure.sh | bash
 # Then run these commands to set a password:
 # jupyter notebook password
 # sudo systemctl restart jupyter
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 sudo apt-get update
-sudo apt-get -y upgrade
 sudo apt-get install -y \
         build-essential \
+        bash-completion \
         libffi-dev \
         python-dev \
         sqlite3 \
@@ -25,78 +25,40 @@ sudo apt-get install -y \
         tk8.6-dev \
         git \
         vim \
-        less \
+        less
         
 git config --global core.editor "vim"
 
-if [ $(cat /etc/*-release | grep DISTRIB_ID=Ubuntu | wc -l) = 1 ]; then
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+sudo apt-get update
 sudo apt-get install -y \
-        postgresql \
-        postgresql-contrib
-else
-sudo apt-get install -y \
-        postgresql-9.6 \
-        postgresql-client-9.6
-fi
+        postgresql-12 \
+        postgresql-client-12
 
 # Install Python
-PY_VERSION=$(python -V)
-if [ "$PY_VERSION" != "Python 3.6.3" ]; then
-echo "Installing Python 3.6.3"
+PY_VERSION=$(python3 -V)
+if [ "$PY_VERSION" != "Python 3.8.1" ]; then
+echo "Installing Python"
 cd /tmp
-wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz -O python.tgz
+wget https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz -O python.tgz
 tar -xvzf python.tgz
-cd Python-3.6.3
+cd Python-3.8.1
 ./configure --prefix=/usr/local
 make -j 4
 sudo make install
-sudo ln -s /usr/local/bin/python3.6 /usr/local/bin/python
+sudo ln -s /usr/local/bin/python3.8 /usr/local/bin/python
 sudo ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 sudo chown -R $(whoami):$(whoami) /usr/local/
 cd ~
 fi
-
-echo "Configuring Jupyter"
-
-pip install -r https://raw.githubusercontent.com/logston/columbia-vm-management/master/vm/requirements.txt
-
-mkdir -p .jupyter/
-
-cat << 'EOF' > .jupyter/jupyter_notebook_config.py
-## Whether to allow the user to run the notebook as root.
-c.NotebookApp.allow_root = True
-## The IP address the notebook server will listen on.
-c.NotebookApp.ip = '0.0.0.0'
-## The port the notebook server will listen on.
-c.NotebookApp.port = 80
-## Whether to open in a browser after starting. The specific browser used is
-#  platform dependent and determined by the python standard library `webbrowser`
-#  module, unless it is overridden using the --browser (NotebookApp.browser)
-#  configuration option.
-c.NotebookApp.open_browser = False
-EOF
-
-jupyter contrib nbextension install --sys-prefix
-
-cat <<-EOF | sudo tee /etc/systemd/system/jupyter.service 
-[Unit]
-Description=JupyterNotebook
-[Service]
-WorkingDirectory=/home/$USER
-ExecStart=/usr/local/bin/jupyter notebook --config=/home/$USER/.jupyter/jupyter_notebook_config.py
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl enable jupyter.service
-sudo systemctl start jupyter.service
 
 echo "Configuring Postgres"
 
 sudo -H -u postgres bash -c "psql -c \"CREATE ROLE $USER CREATEDB LOGIN ENCRYPTED PASSWORD 'supersecret';\""
 psql -d postgres -c "CREATE DATABASE $USER;"
 
-curl https://raw.githubusercontent.com/logston/columbia-vm-management/master/data/imdb.sh | bash
-curl https://raw.githubusercontent.com/logston/columbia-vm-management/master/data/bank.sh | bash
+curl https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/imdb.sh | bash
+curl https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/bank.sh | bash
 
 echo "Configuration Complete"
