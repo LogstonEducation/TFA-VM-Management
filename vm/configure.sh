@@ -7,7 +7,8 @@ if [[ -f "$LOCK_FILE" ]]; then
         echo "Configuration is already running. Configuration started at ..."
         cat $LOCK_FILE
         echo "If the configuration is taking more than an hour, "
-        echo "Please run the following command and then restart the configuration scirpt."
+        echo "Please run the following command and then restart the configuration scirpt:"
+        echo "rm $LOCK_FILE"
         exit 1;
 else
         echo "Starting Configuration"
