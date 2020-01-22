@@ -15,6 +15,8 @@ else
         echo $(date) > $LOCK_FILE
 fi
 
+START_TS=$SECONDS
+
 sudo apt-get update
 sudo apt-get install -y \
         build-essential \
@@ -76,5 +78,9 @@ curl https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/ba
 if [[ -f "$LOCK_FILE" ]]; then
         rm $LOCK_FILE
 fi
+
+RUN_TIME=$(($SECONDS - $START_TS))
+
+echo "Approx Runtime: $(($RUN_TIME / 60)) minutes"
 
 echo "Configuration Complete"
