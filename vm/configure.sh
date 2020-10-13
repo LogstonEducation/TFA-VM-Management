@@ -1,6 +1,6 @@
 # To configure your VM with python3, run the following single line of code 
 # at the command line from the VM (don't copy the "#" or the "$"):
-#     $ curl -fsSL https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/vm/configure.sh | bash
+#     $ curl -fsSL https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/vm/configure.sh | bash
 LOCK_FILE=/tmp/config-lock
 
 if [[ -f "$LOCK_FILE" ]]; then
@@ -22,6 +22,7 @@ sudo apt-get install -y \
         build-essential \
         bash-completion \
         libffi-dev \
+        python3-venv \
         python-dev \
         sqlite3 \
         libsqlite3-dev \
@@ -72,8 +73,8 @@ echo "Configuring Postgres"
 sudo -H -u postgres bash -c "psql -c \"CREATE ROLE $USER CREATEDB LOGIN ENCRYPTED PASSWORD 'supersecret';\""
 psql -d postgres -c "CREATE DATABASE $USER;"
 
-curl https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/imdb.sh | bash
-curl https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/bank.sh | bash
+curl https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/data/imdb.sh | bash
+curl https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/data/bank.sh | bash
 
 if [[ -f "$LOCK_FILE" ]]; then
         rm $LOCK_FILE

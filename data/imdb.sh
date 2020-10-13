@@ -1,4 +1,4 @@
-wget https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/data/imdb.sql.gz
+wget https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/data/imdb.sql
 gzip -d imdb.sql.gz
 psql -d postgres -c "create database imdb"
 psql -f imdb.sql imdb

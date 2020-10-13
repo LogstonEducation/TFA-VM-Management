@@ -1,12 +1,12 @@
 # To configure your VM with Jupyter Notebook, run the following single line of code 
 # at the command line of the VM (don't copy the "#" or the "$"):
-#     $ curl -fsSL https://raw.githubusercontent.com/logston/columbia-vm-management/master/vm/configure-jupyter.sh | bash
+#     $ curl -fsSL https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/vm/configure-jupyter.sh | bash
 # Then run these commands to set a password:
 #     $ jupyter notebook password
 #     $ sudo systemctl restart jupyter
 echo "Configuring Jupyter"
 
-pip install -r https://bitbucket.org/LogstonEducation/tfa-vm-management/raw/master/vm/requirements.txt
+pip install -r https://raw.githubusercontent.com/LogstonEducation/TFA-VM-Management/master/vm/requirements.txt
 
 mkdir -p .jupyter/
 
